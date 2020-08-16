@@ -1,6 +1,6 @@
 #!/bin/bash
 
-iname=${IMAGE_NAME:-image-name}
-itag=${IMAGE_TAG:-latest}
+arg_imagename="${1}"
+arg_imagetag="${2}"
 
-docker build . -t $iname:$itag
+docker build . -t $arg_imagename:$arg_imagetag
