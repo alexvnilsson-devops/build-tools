@@ -1,6 +1,5 @@
-# Gatsby-specific
-# Read more: https://www.gatsbyjs.org/docs/deploying-to-azure/
-build/
+venv/
+.vscode/
 
 # tmp
 tmp/
@@ -10,8 +9,6 @@ tmp_/
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Runtime data
 pids
