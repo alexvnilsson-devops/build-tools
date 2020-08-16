@@ -1,6 +1,21 @@
-#!/bin/bash
+#!/usr/bin/python3
 
-arg_imagename="${1}"
-arg_imagetag="${2}"
+import argparse
+import subprocess
 
-docker build . -t $arg_imagename:$arg_imagetag
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("--latest", action="store_true",
+                    help="Tag image with latest along named tag.")
+parser.add_argument("name", type=str, help="Image name.")
+parser.add_argument("tag", help="Named tag.")
+
+args = parser.parse_args()
+
+print(args)
+
+p_args = ["docker", "build", ".", "--tag", args.tag]
+
+if args.latest == True:
+    p_args.extend(["--tag", "latest"])
+
+subprocess.run(p_args)
