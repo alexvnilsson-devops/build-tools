@@ -1,30 +1,33 @@
 #!/usr/bin/python3
 
 import argparse
-from buildtools.lib.docker import add_image_tag
+from buildtools.lib.docker import add_image_tag, publish_image
 
 
 def docker_image_tag(args):
-    image = args.image
-    tag = args.tag
-    repo_url = args.remote_url
+    add_image_tag(args.image, args.tag, args.registry)
 
-    add_image_tag(args.image, tag, repo_url)
+
+def docker_image_publish(args):
+    publish_image(args.image, args.registry)
 
 
 parser = argparse.ArgumentParser(prog="docker-publish", description="")
+subparser = parser.add_subparsers(help="sub-command help")
 
-tag_subparser = parser.add_subparsers(help="tag help")
-tag = tag_subparser.add_parser("tag")
-
-tag.add_argument("image", type=str)
-tag.add_argument("--remote-url", required=False, type=str,
-                 help="URL of remote repository.")
-tag.add_argument("-t", "--tag", required=True, type=str,
-                 help="Tag to append to image.")
+tag = subparser.add_parser("tag")
+tag.add_argument("image", type=str, help="Image name.")
+tag.add_argument("tag", type=str, help="Tag to append to image.")
+tag.add_argument("--registry", required=False, type=str,
+                 help="URL of registry.")
 tag.set_defaults(func=docker_image_tag)
 
-args = parser.parse_args()
+publish = subparser.add_parser("publish")
+publish.add_argument("image", type=str, help="Image name.")
+publish.add_argument("--registry", required=False, type=str,
+                     help="URL of registry to publish to.")
+publish.set_defaults(func=docker_image_publish)
 
+args = parser.parse_args()
 if hasattr(args, 'func'):
     args.func(args)
