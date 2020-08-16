@@ -3,15 +3,11 @@
 import argparse
 import subprocess
 
-parser = argparse.ArgumentParser(description="")
-parser.add_argument("--latest", action="store_true",
-                    help="Tag image with latest along named tag.")
+parser = argparse.ArgumentParser(prog="docker-build", description="")
 parser.add_argument("name", type=str, help="Image name.")
-parser.add_argument("--tag", action="append", help="Named tag(s).")
+parser.add_argument("-t", "--tag", action="append", help="Image tag.")
 
 args = parser.parse_args()
-
-print(args)
 
 image_name = args.name
 
@@ -22,7 +18,6 @@ if args.tag is None or not isinstance(args.tag, list):
     p_arg_tags.extend(["--tag", f"{image_name}:latest"])
 else:
     for tag in args.tag:
-        print(tag)
         p_arg_tags.extend(["--tag", f"{image_name}:{tag}"])
 
 
