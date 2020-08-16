@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+
+import argparse
+from azure import Azure
+
+parser = argparse.ArgumentParser(prog="azure-acr", description="")
+parser.add_argument("-r", "--registry", required=True,
+                    type=str, help="Container registry name.")
+
+args = parser.parse_args()
+
+az_registry_id = Azure.get_acr_id(args.registry)
+
+print(az_registry_id)

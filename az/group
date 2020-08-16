@@ -1,0 +1,15 @@
+#!/usr/bin/python3
+
+import argparse
+from azure import Azure
+
+parser = argparse.ArgumentParser(prog="az-group", description="")
+parser.add_argument("-rg", "--resource-group", required=True,
+                    type=str, help="Resource group name.")
+
+args = parser.parse_args()
+
+az_group_id = Azure.get_group_id(args.resource_group)
+az_rdac = Azure.create_sp_rbac(az_group_id, "Contributor")
+
+print(az_rdac)

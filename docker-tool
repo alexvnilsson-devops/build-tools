@@ -1,0 +1,30 @@
+#!/usr/bin/python3
+
+import argparse
+from buildtools.lib.docker import add_image_tag
+
+
+def docker_image_tag(args):
+    image = args.image
+    tag = args.tag
+    repo_url = args.remote_url
+
+    add_image_tag(args.image, tag, repo_url)
+
+
+parser = argparse.ArgumentParser(prog="docker-publish", description="")
+
+tag_subparser = parser.add_subparsers(help="tag help")
+tag = tag_subparser.add_parser("tag")
+
+tag.add_argument("image", type=str)
+tag.add_argument("--remote-url", required=False, type=str,
+                 help="URL of remote repository.")
+tag.add_argument("-t", "--tag", required=True, type=str,
+                 help="Tag to append to image.")
+tag.set_defaults(func=docker_image_tag)
+
+args = parser.parse_args()
+
+if hasattr(args, 'func'):
+    args.func(args)

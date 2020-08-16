@@ -1,0 +1,73 @@
+#!/usr/bin/python3
+
+import argparse
+import sys
+import os
+from sys import exit
+
+#from buildtools.parsers import Git
+
+from buildtools.parsers.root import parser
+
+from buildtools.command import CommandParser, CommandSubparser, _SubParsersAction
+
+
+class Bar(CommandSubparser):
+    def __init__(self):
+        print("huh")
+
+    def install_parsers(self, subparser: _SubParsersAction):
+        subparser.add_parser("foo")
+
+
+class Foo(CommandParser):
+    def __init__(self):
+        super(Foo, self).__init__(parser)
+        bar = self.add_subparser(Bar)
+
+
+Foo()
+
+
+def git_repo_verify():
+    print("git repo verify")
+
+
+# subparsers = parser.add_subparsers(help="sub-commands")
+
+# git_parser = subparsers.add_parser("git")
+# git_subparsers = git_parser.add_subparsers(help="git-help")
+
+# git_repo_parser = git_subparsers.add_parser("repo")
+# git_repo_subparsers = git_repo_parser.add_subparsers(help="git repo-help")
+
+# git_repo_verify_parser = git_repo_subparsers.add_parser("verify")
+
+# git_repo_verify_parser.add_argument(
+#     "-d", "--directory", default=os.getcwd(), type=str, help="path to verify")
+# git_repo_verify_parser.set_defaults(func=git_repo_verify)
+
+
+def git():
+    print("git")
+
+
+args = parser.parse_args()
+if hasattr(args, 'func'):
+    args.func()
+
+# class BuildTool(CommandGroup):
+#     def __init__(self):
+#         self.parser = argparse.ArgumentParser()
+#         self.register(self.parser)
+#         self.register_subparsers()
+#         self.add_subparser("git", Git)
+
+#         #self.enable_subparsers("git help")
+#         # self.register_group("git")
+
+#         print(self.parser)
+
+
+# if __name__ == "__main__":
+#     BuildTool()
