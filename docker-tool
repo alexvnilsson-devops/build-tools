@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
-from buildtools.lib.docker import add_image_tag, publish_image
+from buildtools.service.docker import add_image_tag, publish_image
 
 
 def docker_image_tag(args):
